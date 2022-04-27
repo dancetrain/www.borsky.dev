@@ -6,13 +6,13 @@ const textStyle: CSSProperties = {
     fontSize: '40px'
 }
 
-const bodyStyle: CSSProperties = {
-    background: '#e2e2e2'
-}
-
 const IndexPage: React.FC = () => {
     return <Layout>
-        <div style={textStyle}><UnderConstruction /></div>
+        <main style={textStyle}>
+            <p>Hey! I'm Pavel</p>
+            <p>I'm a developer based in Barcelona, Spain</p>
+            <p>I work in ZeptoLab as a Lead Software Engineer</p>
+        </main>
     </Layout>
 }
 

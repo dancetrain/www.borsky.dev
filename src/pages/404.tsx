@@ -37,15 +37,15 @@ const NotFoundPage = () => {
           😔
         </span>{" "}
         we couldn’t find what you were looking for.
-        <br />
+        <br/>
         {process.env.NODE_ENV === "development" ? (
-          <>
-            <br />
-            Try creating a page in <code style={codeStyles}>src/pages/</code>.
-            <br />
-          </>
+            <>
+              <br/>
+              Try creating a page in <code style={codeStyles}>src/pages/</code>.
+              <br/>
+            </>
         ) : null}
-        <br />
+        <br/>
         <Link to="/">Go home</Link>.
       </p>
     </main>

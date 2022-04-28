@@ -2,9 +2,9 @@ import React from "react";
 
 
 const UnderConstruction: React.FC = () => {
-    return <>
-        🚧 Under construction 🚧
-    </>
+  return <>
+    🚧 Under construction 🚧
+  </>
 }
 
 

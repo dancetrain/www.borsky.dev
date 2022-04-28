@@ -6,12 +6,10 @@ const textStyle: CSSProperties = {
 }
 
 const IndexPage: React.FC = () => {
-  return <Layout>
-    <main style={textStyle}>
+  return <Layout mainStyles={textStyle}>
       <p>Hey! I'm Pavel</p>
       <p>I'm a developer based in Barcelona, Spain</p>
       <p>I work in ZeptoLab as a Lead Software Engineer</p>
-    </main>
   </Layout>
 }
 

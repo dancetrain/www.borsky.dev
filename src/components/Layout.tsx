@@ -11,10 +11,21 @@ const pageStyles: React.CSSProperties = {
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'space-between',
+}
+
+const defaultMainStyles: React.CSSProperties = {
   padding: '0 2rem'
 }
 
-const Layout: React.FC = ({children}) => {
+type LayoutProps = {
+  mainStyles?: React.CSSProperties
+}
+
+const Layout: React.FC<LayoutProps> = (
+    {
+      mainStyles,
+      children
+    }) => {
   const {site} = useStaticQuery(
       graphql`
         query {
@@ -35,7 +46,10 @@ const Layout: React.FC = ({children}) => {
       <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet"/>
     </Helmet>
     <Header/>
-    {children}
+    <main style={{...defaultMainStyles,...mainStyles}}>
+      {children}
+    </main>
+
     <Footer/>
   </div>
 }

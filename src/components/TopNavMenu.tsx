@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "gatsby"
 
 const topNavMenuStyles: React.CSSProperties = {
   display: "flex",
@@ -17,9 +18,15 @@ const liStyle: React.CSSProperties = {
 const TopNavMenu: React.FC = () => {
   return (
       <ul style={topNavMenuStyles}>
-        <li style={liStyle}>Articles</li>
-        <li style={liStyle}>About</li>
-        <li style={liStyle}>Tools</li>
+        <li style={liStyle}>
+          <Link to={"/"}>Articles</Link>
+        </li>
+        <li style={liStyle}>
+          <Link to={"/about"}>About</Link>
+        </li>
+        <li style={liStyle}>
+          <Link to={"/tools"}>Tools</Link>
+        </li>
       </ul>
   )
 };

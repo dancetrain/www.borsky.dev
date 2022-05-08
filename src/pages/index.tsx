@@ -5,7 +5,7 @@ const textStyle: CSSProperties = {
   fontSize: '40px'
 }
 
-const IndexPage: React.FC = () => {
+const HomePage: React.FC = () => {
   return <Layout mainStyles={textStyle}>
       <p>Hey! I'm Pavel</p>
       <p>I'm a developer based in Barcelona, Spain</p>
@@ -13,4 +13,4 @@ const IndexPage: React.FC = () => {
   </Layout>
 }
 
-export default IndexPage;
+export default HomePage;

@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useState } from "react";
 import Layout from "../../components/Layout";
 
 function toB64(v: string) {
@@ -9,9 +9,9 @@ function fromB64(v: string) {
   return window.atob(v)
 }
 
-const Base64Page: React.FC = () => {
-  const [input, setInput] = useState<string>("Text Input")
-  const [output, setOutput] = useState<string>(toB64(input))
+const Base64: React.FC = () => {
+  const [input, setInput] = useState<string>()
+  const [output, setOutput] = useState<string>()
 
   const updateOutput = useCallback((value: string) => {
     setOutput(toB64(value))
@@ -35,4 +35,4 @@ const Base64Page: React.FC = () => {
     </div>
   </Layout>
 };
-export default Base64Page;
+export default Base64;

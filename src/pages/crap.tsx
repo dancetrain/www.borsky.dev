@@ -127,7 +127,7 @@ const links = [
 ]
 
 // markup
-const IndexDefaultPage = () => {
+const Crap = () => {
   return <Layout>
     <main style={pageStyles}>
       <title>Home Page</title>
@@ -177,4 +177,4 @@ const IndexDefaultPage = () => {
   </Layout>
 }
 
-export default IndexDefaultPage
+export default Crap

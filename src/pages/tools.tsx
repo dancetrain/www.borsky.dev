@@ -2,7 +2,7 @@ import React from "react";
 import Layout from "../components/Layout";
 import { Link } from "gatsby";
 
-const ToolsPage: React.FC = () => {
+const Tools: React.FC = () => {
   return <Layout>
     Tools
     <ul>
@@ -10,4 +10,4 @@ const ToolsPage: React.FC = () => {
     </ul>
   </Layout>
 };
-export default ToolsPage;
+export default Tools;

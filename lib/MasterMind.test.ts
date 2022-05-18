@@ -1,6 +1,5 @@
 import * as MasterMind from './MasterMind.lib';
 import _ from "lodash";
-import MasterMindBoard from "../games/MasterMind/MasterMind.board";
 import { Config, GameStatus } from "./MasterMind.lib";
 
 describe('Testing game generations', () => {

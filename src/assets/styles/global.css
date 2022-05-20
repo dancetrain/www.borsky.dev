@@ -13,3 +13,20 @@ body {
   /*align-items: center;*/
   /*justify-content: center;*/
 }
+
+
+.menu-link {
+  transition: all 0.4s ease-in-out;
+}
+
+.menu-link:hover,
+.menu-link:focus {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.menu-link > a,
+.menu-link > a:hover,
+.menu-link > a:visited {
+  color: #e7e7e7;
+  text-decoration: none;
+}

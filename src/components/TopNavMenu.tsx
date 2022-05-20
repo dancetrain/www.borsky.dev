@@ -27,6 +27,9 @@ const TopNavMenu: React.FC = () => {
         <li style={liStyle}>
           <Link to={"/tools"}>Tools</Link>
         </li>
+        <li style={liStyle}>
+          <Link to={"/games"}>Games</Link>
+        </li>
       </ul>
   )
 };

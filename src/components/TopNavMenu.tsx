@@ -12,22 +12,22 @@ const topNavMenuStyles: React.CSSProperties = {
 }
 
 const liStyle: React.CSSProperties = {
-  padding: "0 0 0 1rem"
+  padding: "0 0.5rem"
 }
 
-const TopNavMenu: React.FC = () => {
+const TopNavMenu: React.FC<{style?: React.CSSProperties}> = ({style}) => {
   return (
-      <ul style={topNavMenuStyles}>
-        <li style={liStyle}>
+      <ul style={{...topNavMenuStyles,...style}}>
+        <li style={liStyle} className={"menu-link"}>
           <Link to={"/"}>Articles</Link>
         </li>
-        <li style={liStyle}>
+        <li style={liStyle} className={"menu-link"}>
           <Link to={"/about"}>About</Link>
         </li>
-        <li style={liStyle}>
+        <li style={liStyle} className={"menu-link"}>
           <Link to={"/tools"}>Tools</Link>
         </li>
-        <li style={liStyle}>
+        <li style={liStyle} className={"menu-link"}>
           <Link to={"/games"}>Games</Link>
         </li>
       </ul>

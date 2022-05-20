@@ -6,11 +6,14 @@ type HeaderProps = {
 }
 
 const headerStyles: React.CSSProperties = {
-  padding: '1rem 2rem',
-
   display: "flex",
   flexDirection: 'row',
   justifyContent: 'space-between',
+  padding: '0 2rem',
+}
+
+const divStyle: React.CSSProperties = {
+  lineHeight: '3rem',
 }
 
 const headerDark: React.CSSProperties = {
@@ -19,15 +22,13 @@ const headerDark: React.CSSProperties = {
 }
 
 const Header: React.FC<HeaderProps> = ({style}) => {
-
-
   return (
       <header style={{...headerStyles,...headerDark, ...style}}>
-        <div>
+        <div style={divStyle}>
           www.borsky.dev
         </div>
         <div>
-          <TopNavMenu />
+          <TopNavMenu style={divStyle}/>
         </div>
       </header>
   )

@@ -16,7 +16,6 @@ const config: GatsbyConfig = {
                 "icon": "src/assets/images/logo.png"
             }
         },
-        "gatsby-plugin-mdx",
         {
             resolve: "gatsby-plugin-sharp",
         },

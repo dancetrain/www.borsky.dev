@@ -16,20 +16,19 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@mdx-js/mdx": "^1.6.22",
-    "@mdx-js/react": "^1.6.22",
+    "@react-three/fiber": "^8.0.19",
     "gatsby": "^4.12.1",
     "gatsby-plugin-image": "^2.12.1",
     "gatsby-plugin-manifest": "^4.12.1",
-    "gatsby-plugin-mdx": "^3.12.1",
     "gatsby-plugin-react-helmet": "^5.12.1",
     "gatsby-plugin-sharp": "^4.12.1",
     "gatsby-plugin-sitemap": "^5.12.1",
     "gatsby-source-filesystem": "^4.12.1",
     "gatsby-transformer-sharp": "^4.12.1",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1",
-    "react-helmet": "^6.1.0"
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
+    "react-helmet": "^6.1.0",
+    "three": "^0.140.2"
   },
   "devDependencies": {
     "@types/jest": "^27.5.1",
@@ -37,6 +36,7 @@
     "@types/react": "^17.0.44",
     "@types/react-dom": "^17.0.15",
     "@types/react-helmet": "^6.1.5",
+    "@types/three": "^0.140.0",
     "jest": "^28.1.0",
     "ts-jest": "^28.0.2",
     "typescript": "^4.6.3"

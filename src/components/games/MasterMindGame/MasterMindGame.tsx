@@ -5,7 +5,10 @@ import MasterMindGameBoard from "./MasterMindGame.board";
 const MasterMindGame = () => {
 
   return (
-    <div>
+    <div style={{
+      width: '1024px',
+      height: '768px',
+    }}>
       <MasterMindGameBoard />
     </div>
   );

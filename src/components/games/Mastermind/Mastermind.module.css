@@ -1,0 +1,33 @@
+
+.board {
+  background: #FFF4DB;
+}
+.playzone {
+  width: 50%;
+  float: left;
+}
+.row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 1rem;
+}
+.peg {
+  border: 1px solid #FFF4DB;
+  border-radius: 50%;
+  height: 5rem;
+  width: 5rem;
+  background: #000;
+}
+
+.peg-ball {
+  border-radius: 100%;
+  height: 90%;
+  width: 90%;
+  margin: 5%;
+  background: #000;
+}
+
+.actionable {
+  cursor: pointer;
+}

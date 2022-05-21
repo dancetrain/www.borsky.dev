@@ -16,8 +16,9 @@ const Box: React.FC<MeshProps> = (props) => {
   // Hold state for hovered and clicked events
   const [hovered, hover] = useState(false)
   const [clicked, click] = useState(false)
+  const speed = Math.random() * -0.05 + 0.05;
   // Subscribe this component to the render-loop, rotate the mesh every frame
-  useFrame((state, delta) => (ref.current!!.rotation.x += 0.01))
+  useFrame((state, delta) => (ref.current!!.rotation.x += speed))
   // Return the view, these are regular Threejs elements expressed in JSX
   return (
       <mesh
@@ -33,7 +34,12 @@ const Box: React.FC<MeshProps> = (props) => {
   )
 }
 
-const MasterMindGameBoard = () => {
+type CubesProps = {
+  tries?: number;
+  holes?: number;
+}
+
+const CubesBoard: React.FC<CubesProps> = ({tries = 10, holes = 4}) => {
 
   const group = new Group();
   const geo = new BoxBufferGeometry(2, 2, 2);
@@ -46,16 +52,16 @@ const MasterMindGameBoard = () => {
 
 
   return <Canvas>
-    <ambientLight/>
-    <group position={[0, 0.1, 0.1]}>
-      <mesh>
-        <boxBufferGeometry attach="geometry" args={[0.047, 0.5, 0.29]}/>
-        <meshStandardMaterial attach="material" color={0xf95b3c}/>
-      </mesh>
-    </group>
-    <Box position={[-1.2, 0, 0]}/>
-    <Box position={[1.2, 0, 0]}/>
+      <ambientLight/>
+      <group position={[0, 0.1, 0.1]}>
+        <mesh>
+          <boxBufferGeometry attach="geometry" args={[0.047, 0.5, 0.29]}/>
+          <meshStandardMaterial attach="material" color={0xf95b3c}/>
+        </mesh>
+      </group>
+      <Box position={[0, 0, 0]}/>
+      <Box position={[2, 2, 0]}/>
   </Canvas>;
 };
 
-export default MasterMindGameBoard;
+export default CubesBoard;

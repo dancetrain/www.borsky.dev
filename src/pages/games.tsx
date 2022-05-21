@@ -7,6 +7,9 @@ const Games: React.FC = () => {
     Games
     <ul>
       <li>
+        <Link to={"/games/cubes"}>ThreeJS flying Cubes</Link>
+      </li>
+      <li>
         <Link to={"/games/mastermind"}>Master Mind</Link>
       </li>
     </ul>

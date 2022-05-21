@@ -16,7 +16,7 @@ const Footer: React.FC = () => {
           &copy; Copyright 2021-{today}
         </div>
         <div>
-          Build with Gatsby
+          Built with Gatsby
         </div>
       </div>
   )

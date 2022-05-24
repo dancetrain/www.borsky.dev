@@ -1,5 +1,6 @@
 import React from "react";
 import MastermindGameBoard from "./Mastermind.board";
+import MastermindContext from "./Mastermind.context";
 
 const MastermindGame: React.FC = () => {
 

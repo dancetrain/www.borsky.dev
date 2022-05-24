@@ -1,7 +1,6 @@
 import React from "react";
-import { actionable, board, peg, pegBall, playzone, row } from './Mastermind.module.css';
-import img from './assets/mm2.jpg';
-import { Config } from "../../../../lib/MasterMind.lib";
+import { actionable, board, codeRow, fieldCell, keyCell, peg, pegBall, row, spaceCell } from './Mastermind.module.css';
+import MastermindContext from "./Mastermind.context";
 
 type MastermindGameBoardProps = {
   holes?: number
@@ -20,14 +19,10 @@ const Peg: React.FC<{ Ball?: typeof PegBall, onClick?: () => void }> = ({Ball, o
     </div>
 );
 
-const MastermindGameBoard: React.FC<MastermindGameBoardProps> = (
-    {
-      holes = 4,
-      tries = 20,
-    }
-) => {
-  const colors = Config.COLORS;
-  const [currentMove, setCurrentMove] = React.useState<(string | undefined)[]>([...Array(holes)].map(() => undefined));
+const MastermindGameBoard: React.FC = () => {
+  const gameContext = React.useContext(MastermindContext)
+  const colors = gameContext.settings.colors;
+  const [currentMove, setCurrentMove] = React.useState<(string | undefined)[]>([...Array(gameContext.settings.holes)].map(() => undefined));
 
   const onDeckClick = (color: string) => {
     setCurrentMove((oldMove) => {
@@ -42,35 +37,51 @@ const MastermindGameBoard: React.FC<MastermindGameBoardProps> = (
 
   return <div className={board}>
     <div className={"master-mind-field"}>
-      <div className={"deck"}>
-        <div className={row}>
-          {colors.map((color, i) =>
-              <Peg key={color}
-                   Ball={() => <PegBall color={color}/>}
-                   onClick={() => onDeckClick(color)}
+      <div className={row}>
+        <div className={keyCell}>&nbsp;</div>
+        <div className={spaceCell}>&nbsp;</div>
+        <div className={fieldCell}>
+          <div className={`${row} ${codeRow}`}>
+            {colors.map((color, i) =>
+                <Peg key={color}
+                     Ball={() => <PegBall color={color}/>}
+                     onClick={() => onDeckClick(color)}
+                />
+            )}
+          </div>
+        </div>
+      </div>
+      <div className={row}>
+        <div className={keyCell}>
+          <button onClick={() => alert("TODO")} type={"button"}>
+            Check Move
+          </button>
+        </div>
+        <div className={spaceCell}>&nbsp;</div>
+        <div className={fieldCell}>
+          <div className={row}>
+            {[...Array(gameContext.settings.holes)].map((_, i) => {
+              const color = currentMove[i];
+              return <Peg key={i}
+                          Ball={color ? () => <PegBall color={color}/> : undefined}
+                          onClick={() => setCurrentMove((oldMove) => [...oldMove.slice(0, i), undefined, ...oldMove.slice(i + 1)])}
               />
-          )}
+            })
+            }
+          </div>
         </div>
       </div>
-      <div className={playzone}>
-        <div className={row}>
-          {[...Array(holes)].map((_, i) => {
-            const color = currentMove[i];
-            return <Peg key={i}
-                        Ball={color ? () => <PegBall color={color}/> : undefined}
-                        onClick={() => setCurrentMove((oldMove) => [...oldMove.slice(0, i), undefined, ...oldMove.slice(i + 1)])}
-            />
-          })
-          }
-        </div>
-        {[...Array(tries)].map((_, itry) => <div className={row} key={itry}>
-              {[...Array(holes)].map((_, ihole) => <Peg key={itry + ihole}/>)}
+      {[...Array(gameContext.settings.guesses)].map((_, itry) =>
+          <div className={row}>
+            <div className={keyCell}>&nbsp;</div>
+            <div className={spaceCell}>&nbsp;</div>
+            <div className={fieldCell}>
+              <div className={row}>
+                {[...Array(gameContext.settings.guesses)].map((_, ihole) => <Peg key={itry + ihole}/>)}
+              </div>
             </div>
-        )}
-      </div>
-      <div className={playzone}>
-        <img src={img} alt={"board"}/>
-      </div>
+          </div>
+      )}
     </div>
   </div>
 };

@@ -1,23 +1,33 @@
 import React from 'react';
+import { GameStatus } from "../../../../lib/MasterMind.lib";
 
-type MastermindSettingsProps = {
+export type MastermindSettingsProps = {
   colors: string[];
   holes: number;
   guesses: number;
 }
-type MastermindContextProps = {
-  board?: string[][];
-  settings: MastermindSettingsProps
+
+
+export type MastermindContextProps = {
+  settings: MastermindSettingsProps;
+  client?: MastermindClient;
 }
 
+export type MastermindClient = {
+  // startGame: (settings: MastermindSettingsProps) => void;
+  getBoard: () => string[][];
+  checkGuess: (guess: string[]) => Promise<GameStatus>;
+}
 
-const MastermindContext = React.createContext<MastermindContextProps>({
+export const MastermindContextDefaults: MastermindContextProps = {
   settings: {
     colors: ['red', 'green', 'blue', 'yellow', 'orange', 'purple'],
     holes: 4,
     guesses: 5
   }
-})
+}
+
+const MastermindContext = React.createContext<MastermindContextProps>(MastermindContextDefaults)
 
 export default MastermindContext;
 

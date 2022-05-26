@@ -22,16 +22,18 @@ export type Solution = Row;
 
 export type GameStatus = 'WON' | 'LOSE' | 'ACTIVE'
 
-class MasterMindBoard {
+export class MasterMindBoard {
   private readonly _board: Board;
   private readonly _solution: Solution;
   private _currentRow: number;
   private _status: GameStatus = 'ACTIVE';
+  private _tries: number;
 
-  constructor(board: Board, solution: Solution) {
-    this._board = board;
+  constructor(solution: Solution, tries: number) {
+    this._board = [];
     this._currentRow = 0;
     this._solution = solution;
+    this._tries = tries;
   }
 
   public checkSolution(attempt: Row): GameStatus {
@@ -43,6 +45,9 @@ class MasterMindBoard {
     this._checkMove(attempt)
     return this._status;
   }
+  public getBoard(): Board {
+    return [...this._board];
+  }
 
   private _checkMove(attempt: Row) {
     if (_.isEqual(this._solution, attempt)) {
@@ -50,33 +55,46 @@ class MasterMindBoard {
     } else {
       this._currentRow += 1
     }
-    if (this._board.length == this._currentRow) {
+    if (this._tries == this._currentRow) {
       this._status = 'LOSE'
     }
   }
 }
 
 
-const createRandomSolution: (length?: number) => Solution = (length: number = Config.HOLES_SIZE) => {
-  if (length > Config.COLORS_SIZE) {
-    throw new Error(`Solution length cannot be greater than ${Config.COLORS_SIZE} size`);
+const createRandomSolution: (length?: number, colors?: string[]) => Solution = (
+    length: number = Config.HOLES_SIZE,
+    colors = Config.COLORS
+) => {
+  if (length > colors.length) {
+    throw new Error(`Solution length cannot be greater than ${colors.length} size`);
   }
 
+  // copy colors array
   const solution: Solution = [];
-  for (let i = 0; i < Config.COLORS_SIZE; i++) {
-    solution[i] = Config.COLORS[i];
+  for (let i = 0; i < colors.length; i++) {
+    solution[i] = colors[i];
   }
 
   return _.sampleSize(solution, length)
 }
 
-const createBoard: (moves?: number, size?: number) => MasterMindBoard = (moves: number = Config.TRIES_SIZE, size: number = Config.HOLES_SIZE) => {
-  const solution = createRandomSolution(size)
-  const board: Board = new Array(moves)
-  return new MasterMindBoard(board, solution)
+const createBoard: (config: {
+  guesses?: number,
+  size?: number,
+  colors?: string[]
+}) => MasterMindBoard = (
+    {
+      guesses = Config.TRIES_SIZE,
+      size = Config.HOLES_SIZE,
+      colors = Config.COLORS
+    }
+) => {
+  const solution = createRandomSolution(size, colors)
+  return new MasterMindBoard(solution, guesses)
 }
 
-export {
+export default {
   createRandomSolution,
   createBoard
 }

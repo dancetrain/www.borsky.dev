@@ -13,7 +13,7 @@ const MastermindGame: React.FC = () => {
   // handle custom states
 
   //MastermindContextDefaults.settings.colors.length
-  const [colors, setColorsSize] = useState(4);
+  const [colors, setColorsSize] = useState(MastermindContextDefaults.settings.colors.length);
 
   const [mastermind, setMastermind] = useState<MastermindContextProps>({
     ...MastermindContextDefaults,

@@ -20,7 +20,12 @@ export type Row = string[];
 export type Board = Row[];
 export type Solution = Row;
 
-export type GameStatus = 'WON' | 'LOSE' | 'ACTIVE'
+export type GameStatus = 'WON' | 'LOST' | 'ACTIVE'
+export type AttemptResult = {
+  rightRight: number, //right color and right position
+  rightWrong: number, //right color but wrong position
+  wrongWrong: number  //wrong color
+}
 
 export class MasterMindBoard {
   private readonly _board: Board;
@@ -45,18 +50,49 @@ export class MasterMindBoard {
     this._checkMove(attempt)
     return this._status;
   }
+
+  public getAttempts(): AttemptResult[] {
+    return this._board.map(row => this._checkAttempt(row))
+  }
+
+  private _checkAttempt(row: Row): AttemptResult {
+    const result: AttemptResult = {
+      rightRight: 0,
+      rightWrong: 0,
+      wrongWrong: 0
+    }
+
+    const solution = [...this._solution]
+
+    for (let i = 0; i < row.length; i++) {
+      if (row[i] == solution[i]) {
+        solution[i] = undefined
+        result.rightRight++;
+      } else {
+        const solutionIndex = solution.indexOf(row[i]);
+        if (solutionIndex != -1) {
+          solution[solutionIndex] = undefined
+          result.rightWrong++;
+        } else {
+          result.wrongWrong++;
+        }
+      }
+    }
+
+    return result;
+  }
+
   public getBoard(): Board {
     return [...this._board];
   }
-
   private _checkMove(attempt: Row) {
     if (_.isEqual(this._solution, attempt)) {
       this._status = 'WON'
     } else {
       this._currentRow += 1
     }
-    if (this._tries == this._currentRow) {
-      this._status = 'LOSE'
+    if (this._tries < this._currentRow) {
+      this._status = 'LOST'
     }
   }
 }
@@ -70,6 +106,7 @@ const createRandomSolution: (length?: number, colors?: string[]) => Solution = (
     throw new Error(`Solution length cannot be greater than ${colors.length} size`);
   }
 
+  console.log("Creating random solution with ", colors)
   // copy colors array
   const solution: Solution = [];
   for (let i = 0; i < colors.length; i++) {

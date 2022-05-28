@@ -12,8 +12,15 @@ import MasterMindLib, { GameStatus, MasterMindBoard } from '../../../../lib/Mast
 const MastermindGame: React.FC = () => {
   // handle custom states
 
+  //MastermindContextDefaults.settings.colors.length
+  const [colors, setColorsSize] = useState(4);
+
   const [mastermind, setMastermind] = useState<MastermindContextProps>({
-    ...MastermindContextDefaults
+    ...MastermindContextDefaults,
+    settings: {
+      ...MastermindContextDefaults.settings,
+      colors: MastermindContextDefaults.settings.colors.slice(0, colors)
+    }
   })
 
   const createLocalClient: (board: MasterMindBoard) => MastermindClient = (board: MasterMindBoard) => {
@@ -23,7 +30,8 @@ const MastermindGame: React.FC = () => {
         return Promise.resolve().then(() => {
           return board.checkSolution(guess)
         });
-      }
+      },
+      getAttempts: () => board.getAttempts(),
     }
   }
 
@@ -33,7 +41,7 @@ const MastermindGame: React.FC = () => {
         <p>
           <button onClick={() => {
             const board = MasterMindLib.createBoard({
-              moves: mastermind.settings.guesses,
+              guesses: mastermind.settings.guesses,
               size: mastermind.settings.holes,
               colors: mastermind.settings.colors
             })

@@ -1,5 +1,5 @@
 import React from 'react';
-import { GameStatus } from "../../../../lib/MasterMind.lib";
+import { AttemptResult, GameStatus } from "../../../../lib/MasterMind.lib";
 
 export type MastermindSettingsProps = {
   colors: string[];
@@ -17,6 +17,7 @@ export type MastermindClient = {
   // startGame: (settings: MastermindSettingsProps) => void;
   getBoard: () => string[][];
   checkGuess: (guess: string[]) => Promise<GameStatus>;
+  getAttempts: () => AttemptResult[];
 }
 
 export const MastermindContextDefaults: MastermindContextProps = {

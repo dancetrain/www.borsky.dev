@@ -1,10 +1,11 @@
 import React, { useMemo } from "react";
 import {
   actionable,
+  attemptCell,
   board,
   checkMoveButton,
+  codeCell,
   codeRow,
-  fieldCell,
   keyCell,
   peg,
   pegBall,
@@ -12,6 +13,7 @@ import {
   spaceCell
 } from './Mastermind.module.css';
 import MastermindContext from "./Mastermind.context";
+import { AttemptResult } from "../../../../lib/MasterMind.lib";
 
 type MastermindGameBoardProps = {
   holes?: number
@@ -25,21 +27,65 @@ const PegBall: React.FC<{ color?: string }> = ({color}) => {
 }
 
 type PegProps = {
-  Ball?: typeof PegBall,
+  Ball?: React.FC | undefined,
   onClick?: () => void,
   style?: React.CSSProperties
 }
-const Peg: React.FC<PegProps> = ({Ball, onClick, style}) => (
+const Peg: React.FC<PegProps> = ({Ball, onClick, style, ...rest}) => (
     <div className={peg} onClick={() => onClick?.apply(this)} style={style}>
-      {Ball ? <Ball/> : null}
+      {Ball ? <Ball {...rest} /> : null}
     </div>
 );
+
+type AttemptResultCellProps = {
+  result: AttemptResult
+}
+
+const attemptResultColors: { [key in keyof AttemptResult]: string } = {
+  rightRight: 'green',
+  rightWrong: 'yellow',
+  wrongWrong: 'red',
+}
+
+const convertAttemptResultToPegs = (result: AttemptResult): string[] => {
+  const pegs: string[] = [];
+  for (let i = 0; i < result.rightRight; i++) {
+    pegs.push(attemptResultColors['rightRight']);
+  }
+  for (let i = 0; i < result.rightWrong; i++) {
+    pegs.push(attemptResultColors['rightWrong']);
+  }
+  for (let i = 0; i < result.wrongWrong; i++) {
+    pegs.push(attemptResultColors['wrongWrong']);
+  }
+  return pegs;
+}
+
+const styles: React.CSSProperties = {
+  display: 'flex',
+  width: '100%'
+}
+
+const AttemptResultCell: React.FC<AttemptResultCellProps> = ({result}) => {
+  const pegs = convertAttemptResultToPegs(result);
+  const half = Math.floor(pegs.length / 2);
+
+  return <div className={`${attemptCell}`}>
+    <div style={styles}>
+      {pegs.slice(0, half).map((color, i) => <Peg key={i} Ball={PegBall} color={color} />)}
+    </div>
+    <div style={styles}>
+      {pegs.slice(half).map((color, i) => <Peg key={i + half} Ball={PegBall} color={color} />)}
+    </div>
+  </div>;
+}
 
 const MastermindGameBoard: React.FC = () => {
   const gameContext = React.useContext(MastermindContext)
   const colors = gameContext.settings.colors;
   const [currentMove, setCurrentMove] = React.useState<(string | undefined)[]>([]);
   const [currentBoard, setCurrentBoard] = React.useState<string[][]>(gameContext.client?.getBoard() ?? []);
+  const [attempts, setAttempts] = React.useState<AttemptResult[]>([]);
 
   const isReady = useMemo(() => {
     return currentMove.length === gameContext.settings.holes
@@ -65,8 +111,19 @@ const MastermindGameBoard: React.FC = () => {
         if (status == 'ACTIVE') {
           setCurrentMove([]);
           const newBoard = gameContext.client!!.getBoard();
-          console.log("New board: ", newBoard);
           setCurrentBoard(newBoard);
+          setAttempts(gameContext.client!!.getAttempts())
+        } else {
+          const newBoard = gameContext.client!!.getBoard();
+          console.log(newBoard);
+          setAttempts(gameContext.client!!.getAttempts())
+          // WON or LOST
+          if (status == 'WON') {
+            alert('You won! ٩(◕‿◕)۶ ')
+          } else {
+            alert('You lost! ( ͡° ʖ̯ ͡°)')
+          }
+
         }
       })
     }
@@ -77,12 +134,13 @@ const MastermindGameBoard: React.FC = () => {
       <div className={row}>
         <div className={keyCell}>&nbsp;</div>
         <div className={spaceCell}>&nbsp;</div>
-        <div className={fieldCell}>
+        <div className={codeCell}>
           <div className={`${row} ${codeRow}`}>
             {colors.map((color, i) =>
                 <Peg key={color}
                      style={{width: `${Math.floor(100 / colors.length)}%`}}
-                     Ball={() => <PegBall color={color}/>}
+                     Ball={PegBall}
+                     color={color}
                      onClick={() => onDeckClick(color)}
                 />
             )}
@@ -92,9 +150,11 @@ const MastermindGameBoard: React.FC = () => {
 
       {currentBoard?.map((rowData, i) =>
           <div className={row}>
-            <div className={keyCell}>&nbsp;</div>
+            <div className={keyCell}>
+              <AttemptResultCell result={attempts[i]}/>
+            </div>
             <div className={spaceCell}>&nbsp;</div>
-            <div className={fieldCell}>
+            <div className={codeCell}>
               <div className={row} key={i}>
                 {rowData.map((color, j) =>
                     <Peg key={color}
@@ -117,12 +177,13 @@ const MastermindGameBoard: React.FC = () => {
           </button>
         </div>
         <div className={spaceCell}>&nbsp;</div>
-        <div className={fieldCell}>
+        <div className={codeCell}>
           <div className={row}>
             {[...Array(gameContext.settings.holes)].map((_, i) => {
               const color = currentMove[i];
-              return <Peg key={i}
-                          Ball={color ? () => <PegBall color={color!!}/> : undefined}
+              return <Peg key={i + currentBoard.length }
+                          Ball={color ? PegBall : undefined}
+                          color={color}
                           onClick={() => setCurrentMove((oldMove) => [...oldMove.slice(0, i), undefined, ...oldMove.slice(i + 1)])}
               />
             })
@@ -131,10 +192,10 @@ const MastermindGameBoard: React.FC = () => {
         </div>
       </div>
       {[...Array(gameContext.settings.guesses - (currentBoard?.length || 0))].map((_, itry) =>
-          <div className={row} key={itry}>
+          <div className={row} key={itry + currentBoard?.length || 0 }>
             <div className={keyCell}>&nbsp;</div>
             <div className={spaceCell}>&nbsp;</div>
-            <div className={fieldCell}>
+            <div className={codeCell}>
               <div className={row}>
                 {[...Array(gameContext.settings.holes)].map((_, ihole) => <Peg key={itry + ihole}/>)}
               </div>

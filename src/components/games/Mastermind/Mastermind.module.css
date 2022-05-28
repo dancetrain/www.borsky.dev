@@ -2,7 +2,8 @@
 .board {
   background: #FFF4DB;
   font-size: 10px;
-  width: 640px;
+  width: 100%;
+  max-width: 640px;
 }
 .row {
   display: flex;
@@ -23,8 +24,18 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 }
-.field-cell {
+.attempt-cell {
+  width: 90%;
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.code-cell {
   width: 80%;
   flex-grow: 4;
 }

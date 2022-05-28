@@ -68,7 +68,7 @@ const styles: React.CSSProperties = {
 
 const AttemptResultCell: React.FC<AttemptResultCellProps> = ({result}) => {
   const pegs = convertAttemptResultToPegs(result);
-  const half = Math.floor(pegs.length / 2);
+  const half = Math.ceil(pegs.length / 2);
 
   return <div className={`${attemptCell}`}>
     <div style={styles}>
@@ -94,8 +94,19 @@ const MastermindGameBoard: React.FC = () => {
 
   const onDeckClick = (color: string) => {
     setCurrentMove((oldMove) => {
-      for (let i = 0; i < gameContext.settings.holes; i++) {
+      let i = 0;
+      if (oldMove.includes(color)) {
+        i = oldMove.indexOf(color) + 1;
+
+        if (i === gameContext.settings.holes) {
+          i = 0;
+        }
+      }
+      for (; i < gameContext.settings.holes; i++) {
         if (oldMove[i] === undefined) {
+          if (oldMove.includes(color)) {
+            oldMove[oldMove.indexOf(color)] = undefined;
+          }
           return [...oldMove.slice(0, i), color, ...oldMove.slice(i + 1)]
         }
       }

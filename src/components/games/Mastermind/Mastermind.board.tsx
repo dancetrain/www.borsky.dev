@@ -13,7 +13,7 @@ import {
   spaceCell
 } from './Mastermind.module.css';
 import MastermindContext from "./Mastermind.context";
-import { AttemptResult } from "../../../../lib/MasterMind.lib";
+import { AttemptResult, GameStatus } from "../../../../lib/MasterMind.lib";
 
 type MastermindGameBoardProps = {
   holes?: number
@@ -85,6 +85,7 @@ const MastermindGameBoard: React.FC = () => {
   const colors = gameContext.settings.colors;
   const [currentMove, setCurrentMove] = React.useState<(string | undefined)[]>([]);
   const [currentBoard, setCurrentBoard] = React.useState<string[][]>(gameContext.client?.getBoard() ?? []);
+  const [currentState, setCurrentState] = React.useState<GameStatus>(gameContext.client?.getStatus() ?? "ACTIVE");
   const [attempts, setAttempts] = React.useState<AttemptResult[]>([]);
 
   const isReady = useMemo(() => {
@@ -126,16 +127,11 @@ const MastermindGameBoard: React.FC = () => {
           setAttempts(gameContext.client!!.getAttempts())
         } else {
           const newBoard = gameContext.client!!.getBoard();
-          console.log(newBoard);
+          console.log("New Board", newBoard);
           setAttempts(gameContext.client!!.getAttempts())
-          // WON or LOST
-          if (status == 'WON') {
-            alert('You won! ٩(◕‿◕)۶ ')
-          } else {
-            alert('You lost! ( ͡° ʖ̯ ͡°)')
-          }
 
         }
+        setCurrentState(status);
       })
     }
   };
@@ -179,13 +175,14 @@ const MastermindGameBoard: React.FC = () => {
       )}
       <div className={row}>
         <div className={keyCell}>
+          {currentState === 'ACTIVE' ?
           <button onClick={onCheckMove}
                   type={"button"}
                   className={checkMoveButton}
                   disabled={!isReady}
           >
             Check Move
-          </button>
+          </button> : <AttemptResultCell result={{rightRight: gameContext.settings.holes, rightWrong: 0, wrongWrong: 0}}/>}
         </div>
         <div className={spaceCell}>&nbsp;</div>
         <div className={codeCell}>
@@ -208,7 +205,7 @@ const MastermindGameBoard: React.FC = () => {
             <div className={spaceCell}>&nbsp;</div>
             <div className={codeCell}>
               <div className={row}>
-                {[...Array(gameContext.settings.holes)].map((_, ihole) => <Peg key={itry + ihole}/>)}
+                {[...Array(gameContext.settings.holes)].map((_, ihole) => <Peg key={itry + ihole + currentBoard?.length || 0}/>)}
               </div>
             </div>
           </div>

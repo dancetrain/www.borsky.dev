@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useParams } from "@reach/router"
 import MastermindGameBoard from "./Mastermind.board";
 import MastermindContext, {
   MastermindClient,
@@ -7,10 +8,11 @@ import MastermindContext, {
 } from "./Mastermind.context";
 import { button } from './Mastermind.module.css'
 
-import MasterMindLib, { GameStatus, MasterMindBoard } from '../../../../lib/MasterMind.lib';
+import MasterMindLib, { MasterMindBoard } from '../../../../lib/MasterMind.lib';
 
 const MastermindGame: React.FC = () => {
   // handle custom states
+  const {gameId} = useParams<{ gameId?: string }>();
 
   //MastermindContextDefaults.settings.colors.length
   const [colors, setColorsSize] = useState(MastermindContextDefaults.settings.colors.length);
@@ -32,8 +34,22 @@ const MastermindGame: React.FC = () => {
         });
       },
       getAttempts: () => board.getAttempts(),
+      getStatus: () => board.getStatus()
     }
   }
+  useEffect(() => {
+    if (gameId) {
+      const board = MasterMindLib.createBoard({
+        guesses: mastermind.settings.guesses,
+        size: mastermind.settings.holes,
+        colors: mastermind.settings.colors
+      }, gameId)
+      setMastermind({
+        ...mastermind,
+        client: createLocalClient(board)
+      })
+    }
+  }, [])
 
   // register/search/join
   return <MastermindContext.Provider value={mastermind}>
@@ -44,7 +60,7 @@ const MastermindGame: React.FC = () => {
               guesses: mastermind.settings.guesses,
               size: mastermind.settings.holes,
               colors: mastermind.settings.colors
-            })
+            }, gameId)
             setMastermind({
               ...mastermind,
               client: createLocalClient(board)

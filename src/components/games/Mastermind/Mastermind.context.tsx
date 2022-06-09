@@ -16,6 +16,7 @@ export type MastermindContextProps = {
 export type MastermindClient = {
   // startGame: (settings: MastermindSettingsProps) => void;
   getBoard: () => string[][];
+  getStatus: () => GameStatus;
   checkGuess: (guess: string[]) => Promise<GameStatus>;
   getAttempts: () => AttemptResult[];
 }

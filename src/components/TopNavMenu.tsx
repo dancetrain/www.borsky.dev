@@ -18,11 +18,11 @@ const liStyle: React.CSSProperties = {
 const TopNavMenu: React.FC<{style?: React.CSSProperties}> = ({style}) => {
   return (
       <ul style={{...topNavMenuStyles,...style}}>
+        {/*<li style={liStyle} className={"menu-link"}>*/}
+        {/*  <Link to={"/"}>Articles</Link>*/}
+        {/*</li>*/}
         <li style={liStyle} className={"menu-link"}>
-          <Link to={"/"}>Articles</Link>
-        </li>
-        <li style={liStyle} className={"menu-link"}>
-          <Link to={"/about"}>About</Link>
+          <Link to={"/"}>About</Link>
         </li>
         <li style={liStyle} className={"menu-link"}>
           <Link to={"/tools"}>Tools</Link>

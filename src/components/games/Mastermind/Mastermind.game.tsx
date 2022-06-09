@@ -9,6 +9,8 @@ import MastermindContext, {
 import { button } from './Mastermind.module.css'
 
 import MasterMindLib, { MasterMindBoard } from '../../../../lib/MasterMind.lib';
+import { generateRandomSeed } from "../../../../lib/RandomUtils.lib";
+import { navigate } from "gatsby";
 
 const MastermindGame: React.FC = () => {
   // handle custom states
@@ -56,15 +58,17 @@ const MastermindGame: React.FC = () => {
     {!mastermind.client ?
         <p>
           <button onClick={() => {
-            const board = MasterMindLib.createBoard({
-              guesses: mastermind.settings.guesses,
-              size: mastermind.settings.holes,
-              colors: mastermind.settings.colors
-            }, gameId)
-            setMastermind({
-              ...mastermind,
-              client: createLocalClient(board)
-            })
+            const seed = generateRandomSeed()
+            return navigate("/games/mastermind/" + seed)
+            // const board = MasterMindLib.createBoard({
+            //   guesses: mastermind.settings.guesses,
+            //   size: mastermind.settings.holes,
+            //   colors: mastermind.settings.colors
+            // }, gameId)
+            // setMastermind({
+            //   ...mastermind,
+            //   client: createLocalClient(board)
+            // })
 
           }} className={button}>Create Game
           </button>

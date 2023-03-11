@@ -8,8 +8,8 @@ const textStyle: CSSProperties = {
 const HomePage: React.FC = () => {
   return <Layout mainStyles={textStyle}>
       <p>Hey! I'm Pavel</p>
-      <p>I'm a developer based in Barcelona, Spain</p>
-      <p>I work in ZeptoLab as a Lead Software Engineer</p>
+      <p>I'm a Software Engineer based in Barcelona, Spain</p>
+      <p>Currently looking for new opportunities as a Lead Engineer</p>
   </Layout>
 }
 

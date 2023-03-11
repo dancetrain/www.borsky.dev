@@ -14,7 +14,7 @@ const Mastermind = () => {
         first wins.
       </p>
       <Router basepath={"/games/mastermind"} primary={false}>
-        <MastermindGame path={"/:gameId/"} />
+        <MastermindGame path={"/:gameId"} />
         <MastermindGame path={"/"} default={true} />
       </Router>
     </Layout>

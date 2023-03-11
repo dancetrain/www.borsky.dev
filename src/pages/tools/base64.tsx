@@ -25,12 +25,16 @@ const Base64: React.FC = () => {
       <textarea onChange={v => {
         setInput(v.target.value);
         updateOutput(v.target.value);
-      }} value={input}/>
+      }} value={input} rows={10} cols={186}/>
+      <br/>
       <span>Paste text here</span>
     </div>
     <div>
       <h2>Base64 Data</h2>
-      <textarea value={output}/>
+      <textarea value={output}
+                onChange={v => {setInput(fromB64(v.target.value)); setOutput(v.target.value)}}
+                rows={10} cols={186}
+      /><br/>
       <span>Paste base64 string here</span>
     </div>
   </Layout>

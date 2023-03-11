@@ -4,51 +4,59 @@ import MastermindGameBoard from "./Mastermind.board";
 import MastermindContext, {
   MastermindClient,
   MastermindContextDefaults,
-  MastermindContextProps
+  MastermindContextProps, MastermindSettingsProps
 } from "./Mastermind.context";
 import { button } from './Mastermind.module.css'
 
-import MasterMindLib, { MasterMindBoard } from '../../../../lib/MasterMind.lib';
+import MasterMindLib, { AttemptResult, GameStatus, MasterMindBoard } from '../../../../lib/MasterMind.lib';
 import { generateRandomSeed } from "../../../../lib/RandomUtils.lib";
 import { navigate } from "gatsby";
+
+
+type GameType = "LOCAL" | "REMOTE";
+
+const createLocalClient: (gameId: string, context: MastermindContextProps) => MastermindClient = (gameId: string, context) => {
+  const board = MasterMindLib.createBoard({
+    guesses: context.settings.guesses,
+    size: context.settings.holes,
+    colors: context.settings.colors
+  }, gameId)
+
+  return {
+    getBoard: () => board.getBoard(),
+    checkGuess: (guess: string[]) => {
+      return Promise.resolve().then(() => {
+        return board.checkSolution(guess)
+      });
+    },
+    getAttempts: () => board.getAttempts(),
+    getStatus: () => board.getStatus()
+  }
+}
 
 const MastermindGame: React.FC = () => {
   // handle custom states
   const {gameId} = useParams<{ gameId?: string }>();
 
   //MastermindContextDefaults.settings.colors.length
-  const [colors, setColorsSize] = useState(MastermindContextDefaults.settings.colors.length);
+  const [colors, setColors] = useState(MastermindContextDefaults.settings.colors);
+  const [gameType, setGameType] = useState<GameType>("LOCAL");
 
   const [mastermind, setMastermind] = useState<MastermindContextProps>({
     ...MastermindContextDefaults,
     settings: {
       ...MastermindContextDefaults.settings,
-      colors: MastermindContextDefaults.settings.colors.slice(0, colors)
+      colors: [...colors]
     }
   })
 
-  const createLocalClient: (board: MasterMindBoard) => MastermindClient = (board: MasterMindBoard) => {
-    return {
-      getBoard: () => board.getBoard(),
-      checkGuess: (guess: string[]) => {
-        return Promise.resolve().then(() => {
-          return board.checkSolution(guess)
-        });
-      },
-      getAttempts: () => board.getAttempts(),
-      getStatus: () => board.getStatus()
-    }
-  }
   useEffect(() => {
     if (gameId) {
-      const board = MasterMindLib.createBoard({
-        guesses: mastermind.settings.guesses,
-        size: mastermind.settings.holes,
-        colors: mastermind.settings.colors
-      }, gameId)
+      const client = createLocalClient(gameId, mastermind)
+
       setMastermind({
         ...mastermind,
-        client: createLocalClient(board)
+        client: client
       })
     }
   }, [])

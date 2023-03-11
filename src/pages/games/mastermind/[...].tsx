@@ -9,9 +9,8 @@ const Mastermind = () => {
     <Layout>
       <h1>Mastermind</h1>
       <p>
-        Mastermind is a code-breaking game for two players. The goal is to guess the secret code.
-        The code consists of four colored pegs. The player who guesses the code correctly
-        first wins.
+        Mastermind is a code-breaking game for one (two) players. The goal is to guess the secret code.
+        The code consists of four colored pegs. The player who guesses the code correctly first wins.
       </p>
       <Router basepath={"/games/mastermind"} primary={false}>
         <MastermindGame path={"/:gameId"} />

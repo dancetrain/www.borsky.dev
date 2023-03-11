@@ -3,7 +3,7 @@ import Layout from "../components/Layout";
 import { Link } from "gatsby";
 
 const Games: React.FC = () => {
-  return <Layout>
+  return <Layout mainStyles={{paddingTop: "1rem", marginBottom: "auto"}}>
     Games
     <ul>
       <li>

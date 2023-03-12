@@ -31,15 +31,17 @@ const CVPage = () => {
             <dd>Vite</dd>
             <dd>Gatsby</dd>
 
-            <dt>CI/CD</dt>
-            <dd>Teamcity</dd>
-            <dd>Github Actions</dd>
-            <dd>Docker</dd>
-
             <dt>DevOps</dt>
             <dd>Ansible</dd>
             <dd>Bash Scripting (there are use cases when it is applicable ¯\_( ° ʖ °)_/¯ )</dd>
             <dd>D2Lang (https://play.d2lang.com)</dd>
+            <dd>Teamcity</dd>
+            <dd>Github Actions</dd>
+            <dd>Docker</dd>
+
+            <dt>Public Profiles</dt>
+            <dd><a href="https://github.com/dancetrain">Github</a></dd>
+            <dd><a href="https://www.linkedin.com/in/pavel-borsky-58694144/">LinkedIn</a></dd>
 
         </dl>
     </Layout>

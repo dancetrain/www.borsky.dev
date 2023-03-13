@@ -16,7 +16,14 @@ const CVPage = () => {
 
       <h2>Technology Stack / Skills</h2>
         <dl>
-            <dt>Programming languages</dt>
+            <dt>Team Leader</dt>
+            <dd>Educate from Junior to Senior</dd>
+            <dd>Problem-Solving</dd>
+            <dd>Collaborative mindset</dd>
+            <dd>Strategical Thinking</dd>
+            <dd>Leadership skills</dd>
+            
+            <dt>Programming Languages</dt>
             <dd>Kotlin / Java</dd>
             <dd>Typescript</dd>
 
@@ -33,7 +40,7 @@ const CVPage = () => {
 
             <dt>DevOps</dt>
             <dd>Ansible</dd>
-            <dd>Bash Scripting (there are use cases when it is applicable ¯\_( ° ʖ °)_/¯ )</dd>
+            <dd>Bash Scripting</dd>
             <dd>D2Lang (https://play.d2lang.com)</dd>
             <dd>Teamcity</dd>
             <dd>Github Actions</dd>
